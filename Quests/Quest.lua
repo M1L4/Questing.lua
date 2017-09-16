@@ -218,7 +218,9 @@ local moonStoneTargets = {
 function Quest:evolvePokemon()
 	-- some buffer levels, to ensure every teammember is fully evolved when figthing e4
 	-- some leeway for indiviudal quest caps: Kanto e4 is started with lv 95, so evolving could start at 93
-	if team.getLowestLvl() >= 90 then enableAutoEvolve() end
+	if(getTeamSize() > 1) then
+	   if team.getLowestLvl() >= 90 then enableAutoEvolve() end
+        end
 	-- or team.getHighestLvl() >= 93 --not leveling mixed teams efficiently: lv 38, ...., lv 93
 
 	local hasMoonStone = hasItem("Moon Stone")
@@ -245,7 +247,9 @@ function Quest:sortInMemory()
 	--setting highest level pkm, as last defense wall
 	local highestAlivePkm = team.getHighestPkmAlive() --has to be found or you would have feinted
 	local lastPkm = team.getLastPkmAlive()
-	if highestAlivePkm ~= lastPkm then return swapPokemon(highestAlivePkm, lastPkm) end
+	if getTeamSize() > 2 then
+	   if highestAlivePkm ~= lastPkm then return swapPokemon(highestAlivePkm, lastPkm) end
+        end
 end
 
 
