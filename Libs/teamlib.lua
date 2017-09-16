@@ -38,7 +38,9 @@ end
 --- @return : team index, of lowest leveled pkm under level_cap | nil, if none exists
 --- @type : integer | nil
 function team.getLowestPkmToLvl(level_cap)
-    return team._compare(team.getPkmToLvl(level_cap), gen.minLvl)
+    if getTeamSize() > 1 then
+       return team._compare(team.getPkmToLvl(level_cap), gen.minLvl)
+    end
 end
 
 function team.getAlivePkmToLvl(level_cap)
@@ -113,7 +115,9 @@ function team.getLowestPkmAlive()
 end
 
 function team.getLowestLvl()
-    return getPokemonLevel(team.getLowestLvlPkm())
+    if getTeamSize() > 1 then
+       return getPokemonLevel(team.getLowestLvlPkm())
+    end
 end
 
 function team.getPkm()
@@ -205,6 +209,7 @@ end
 
 --actual calculations
 function team._compare(t, fn)
+ if getTeamSize() > 1 then
     if not t then return nil end
     if #t == 0 then return nil end --, nil end
     local key, value = 1, t[1]
@@ -214,6 +219,7 @@ function team._compare(t, fn)
         end
     end
     return value
+ end
 end
 
 function team._filter(t, fn, ...)
